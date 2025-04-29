@@ -1,17 +1,19 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>EVG Power – Spotify</title>
   <style>
     body {
-      background: #f5f7fa;
+      background: #0d1117;
       font-family: "Segoe UI", Roboto, Helvetica, sans-serif;
-      color: #2c3e50;
+      color: #ffffff;
       text-align: center;
       scroll-behavior: smooth;
       padding: 0 1rem;
+      overflow-x: hidden;
+      position: relative;
     }
 
     .container {
@@ -21,14 +23,20 @@
     }
 
     h1 {
-      font-size: 2.5rem;
+      font-size: 2.8rem;
       margin-bottom: 0.5rem;
+      color: #1DB954;
     }
 
     h2 {
       font-size: 1.4rem;
       font-weight: normal;
       margin-top: 0;
+      color: #cccccc;
+    }
+
+    .player-container {
+      margin-top: 3rem;
     }
 
     .spotify-card {
@@ -37,10 +45,16 @@
       padding: 1.5rem;
       max-width: 320px;
       margin: 3rem auto 0 auto;
-      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
       text-align: center;
       opacity: 0;
-      animation: fadeInCard 5s ease-in-out forwards;
+      transform: scale(0.9);
+      transition: transform 0.4s ease, box-shadow 0.4s ease, opacity 1s ease;
+    }
+
+    .spotify-card.visible {
+      opacity: 1;
+      transform: scale(1);
     }
 
     .spotify-card a {
@@ -50,8 +64,8 @@
     }
 
     .spotify-card:hover {
-      transform: scale(1.05);
-      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+      transform: scale(1.15);
+      box-shadow: 0 16px 30px rgba(0, 0, 0, 0.6);
     }
 
     .spotify-card h3 {
@@ -64,13 +78,30 @@
       font-size: 1rem;
     }
 
-    .player-container {
-      margin-top: 3rem;
+    .power-fx {
+      position: absolute;
+      font-size: 3rem;
+      font-weight: bold;
+      color: #ffffff;
+      opacity: 0;
+      animation: popPower 1s ease-out forwards;
+      pointer-events: none;
+      z-index: 999;
     }
 
-    @keyframes fadeInCard {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
+    @keyframes popPower {
+      0% {
+        transform: scale(0.5) rotate(-30deg);
+        opacity: 0;
+      }
+      50% {
+        transform: scale(1.2) rotate(10deg);
+        opacity: 1;
+      }
+      100% {
+        transform: scale(1) rotate(0deg);
+        opacity: 0;
+      }
     }
   </style>
 </head>
@@ -88,12 +119,50 @@
       </iframe>
     </div>
 
-    <div class="spotify-card">
+    <div class="spotify-card" id="spotifyCard">
       <a href="https://open.spotify.com/intl-fr/track/3IE9ByRDqql2kyxtTLmVI5?si=6120417cd1314e08" target="_blank">
         <h3>🎵 Écouter sur Spotify</h3>
         <p>Ouvre l'application et découvre la power de ce son !</p>
       </a>
     </div>
   </div>
+
+  <!-- Confettis + POWER animation -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <script>
+    // Confettis après 1.5s
+    setTimeout(() => {
+      confetti({
+        particleCount: 300,
+        spread: 100,
+        origin: { y: 0.6 }
+      });
+    }, 1500);
+
+    // POWER! animation
+    function spawnPower() {
+      const power = document.createElement('div');
+      power.classList.add('power-fx');
+      power.textContent = 'POWER!';
+      power.style.top = Math.random() * 80 + '%';
+      power.style.left = Math.random() * 80 + '%';
+      document.body.appendChild(power);
+      setTimeout(() => power.remove(), 1000);
+    }
+
+    setTimeout(() => {
+      let count = 0;
+      const interval = setInterval(() => {
+        spawnPower();
+        count++;
+        if (count >= 10) clearInterval(interval);
+      }, 300);
+    }, 1000);
+
+    // Apparition de la card Spotify après 5s
+    setTimeout(() => {
+      document.getElementById("spotifyCard").classList.add("visible");
+    }, 5000);
+  </script>
 </body>
 </html>
