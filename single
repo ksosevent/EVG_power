@@ -1,0 +1,20 @@
+---
+title: "Mon titre Spotify"
+format: html
+---
+
+## 🎵 Ma musique sur Spotify
+
+Clique ici pour écouter :  
+[Écouter sur Spotify](https://open.spotify.com/intl-fr/track/3IE9ByRDqql2kyxtTLmVI5?si=6120417cd1314e08)
+
+---
+
+### ▶️ Écoute directe ici :
+
+<iframe style="border-radius:12px" 
+        src="https://open.spotify.com/embed/track/3IE9ByRDqql2kyxtTLmVI5?utm_source=generator" 
+        width="100%" height="152" frameBorder="0" allowfullscreen="" 
+        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+        loading="lazy">
+</iframe>
